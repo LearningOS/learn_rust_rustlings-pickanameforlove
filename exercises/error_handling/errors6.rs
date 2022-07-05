@@ -8,10 +8,10 @@
 
 // Make these tests pass! Execute `rustlings hint errors6` for hints :)
 
-// I AM NOT DONE
+
 
 use std::num::ParseIntError;
-
+use std::error::Error;
 // This is a custom error type that we will be using in `parse_pos_nonzero()`.
 #[derive(PartialEq, Debug)]
 enum ParsePosNonzeroError {
@@ -21,6 +21,12 @@ enum ParsePosNonzeroError {
 
 impl ParsePosNonzeroError {
     // TODO: add another error conversion function here.
+    fn from_creation(x: CreationError) -> ParsePosNonzeroError{
+        ParsePosNonzeroError::Creation(x)
+    }
+    fn from_parseint(x: ParseIntError) -> ParsePosNonzeroError{
+        ParsePosNonzeroError::ParseInt(x)
+    }
 }
 
 fn parse_pos_nonzero(s: &str)
@@ -28,7 +34,7 @@ fn parse_pos_nonzero(s: &str)
 {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
     PositiveNonzeroInteger::new(x)
         .map_err(ParsePosNonzeroError::from_creation)
 }
