@@ -26,6 +26,9 @@ impl From<CreationError> for ParsePosNonzeroError {
         // work for `CreationError`
         ParsePosNonzeroError::Creation(e)
     }
+  
+}
+impl From<ParseIntError> for ParsePosNonzeroError {
     fn from(e: ParseIntError) -> Self {
         // TODO: complete this implementation so that the `?` operator will
         // work for `CreationError`
